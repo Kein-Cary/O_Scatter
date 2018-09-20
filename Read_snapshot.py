@@ -24,6 +24,7 @@ z = np.array(redshift)
 z = z[::-1]
 #set the goal snap_shot
 No_snap = '128'
+_id_ = 0
 #section2:read out the position data of MUSIC
 snap_z = pygdr.readheader('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'redshift')
 snap_z = np.abs(snap_z)
@@ -56,10 +57,10 @@ Rvir = np.array(main_halo['col12'])
 xhalo = np.array(main_halo['col6'])
 yhalo = np.array(main_halo['col7'])
 zhalo = np.array(main_halo['col8'])
-x0 = xhalo[0]
-y0 = yhalo[0]
-z0 = zhalo[0]
-R0 = Rvir[0]
+x0 = xhalo[_id_]
+y0 = yhalo[_id_]
+z0 = zhalo[_id_]
+R0 = Rvir[_id_]
 dgas = np.sqrt((snap_shot_gas[:,0]-x0)**2+(snap_shot_gas[:,1]-y0)**2+
                (snap_shot_gas[:,2]-z0)**2)
 ig = dgas <= R0
@@ -122,10 +123,10 @@ Rvir_gx = np.array(main_halo_gx['col12'])
 xhalo_gx = np.array(main_halo_gx['col6'])
 yhalo_gx = np.array(main_halo_gx['col7'])
 zhalo_gx = np.array(main_halo_gx['col8'])
-x0_gx = xhalo_gx[0]
-y0_gx = yhalo_gx[0]
-z0_gx = zhalo_gx[0]
-R0_gx = Rvir_gx[0]
+x0_gx = xhalo_gx[_id_]
+y0_gx = yhalo_gx[_id_]
+z0_gx = zhalo_gx[_id_]
+R0_gx = Rvir_gx[_id_]
 dgas_gx = np.sqrt((snap_shot_gas_gx[:,0]-x0_gx)**2+(snap_shot_gas_gx[:,1]-y0_gx)**2+
                (snap_shot_gas_gx[:,2]-z0_gx)**2)
 ig_gx = dgas_gx <= R0_gx
@@ -217,18 +218,21 @@ def fig_music(t):
     plt.hist2d(inl_gas[:,0],inl_gas[:,1],bins = [1000,1000],
            cmap = 'rainbow',vmin = 1e-1,vmax = snap_N[0]/100,norm=mpl.colors.LogNorm())
     plt.colorbar(label = r'$log[Number density]$')
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0-R0,x0+R0)
+    plt.ylim(y0-R0,y0+R0)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
     plt.savefig('MUSIC gas distribution No1_z_128',dpi=600)
     plt.show()
+
     plt.hist2d(inl_DM[:,0],inl_DM[:,1],bins = [1000,1000],
                cmap = 'viridis',vmin = 1e-1,vmax = snap_N[1]/100,norm=mpl.colors.LogNorm())
     plt.colorbar(label = r'$log[Number density]$')
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0-R0,x0+R0)
+    plt.ylim(y0-R0,y0+R0)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -238,8 +242,10 @@ def fig_music(t):
         plt.hist2d(inl_star[:,0],inl_star[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N[-2]/100,norm=mpl.colors.LogNorm())
         plt.colorbar(label = r'$log[Number density]$')
-        plt.xlim(4.98e5,5.028e5)
-        plt.ylim(4.98e5,5.028e5)
+        #plt.xlim(4.98e5,5.028e5)
+        #plt.ylim(4.98e5,5.028e5)
+        plt.xlim(x0-R0,x0+R0)
+        plt.ylim(y0-R0,y0+R0)
         plt.axis('off')
         plt.xticks([])
         plt.yticks([])
@@ -249,8 +255,10 @@ def fig_music(t):
     plt.hist2d(inl_disk[:,0],inl_disk[:,1],bins = [500,500],
                cmap = 'cool',vmin = 1e-1,vmax = snap_N[2]/100,norm=mpl.colors.LogNorm())
     plt.colorbar(label = r'$log[Number density]$')
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0-R0,x0+R0)
+    plt.ylim(y0-R0,y0+R0)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -259,8 +267,10 @@ def fig_music(t):
     plt.hist2d(inl_bulge[:,0],inl_bulge[:,1],bins = [500,500],
                cmap = 'summer',vmin = 1e-1,vmax = snap_N[3]/100,norm=mpl.colors.LogNorm())
     plt.colorbar(label = r'$log[Number density]$')
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0-R0,x0+R0)
+    plt.ylim(y0-R0,y0+R0)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -270,8 +280,10 @@ def fig_music(t):
         plt.hist2d(inl_bndry[:,0],inl_bndry[:,1],bins = [500,500],
                cmap = 'gist_rainbow',vmin = 1e-1,vmax = snap_N[-1]/100,norm=mpl.colors.LogNorm())
         plt.colorbar(label = r'$log[Number density]$')
-        plt.xlim(4.98e5,5.028e5)
-        plt.ylim(4.98e5,5.028e5)
+        #plt.xlim(4.98e5,5.028e5)
+        #plt.ylim(4.98e5,5.028e5)
+        plt.xlim(x0-R0,x0+R0)
+        plt.ylim(y0-R0,y0+R0)
         plt.axis('off')
         plt.xticks([])
         plt.yticks([])
@@ -287,8 +299,10 @@ def fig_music(t):
     if snap_N[-2] !=0:
         plt.hist2d(inl_star[:,0],inl_star[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N[-2]/100,norm=mpl.colors.LogNorm())
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0-R0,x0+R0)
+    plt.ylim(y0-R0,y0+R0)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -303,13 +317,15 @@ def fig_music(t):
         plt.hist2d(inl_star[:,0],inl_star[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N[-2]/100,norm=mpl.colors.LogNorm())
     plt.scatter(x0,y0,s = 50,c = 'k',marker = 'x',)
-    plt.xlim(5.001e5,5.007e5)
-    plt.ylim(5.002e5,5.007e5)
+    #plt.xlim(5.001e5,5.007e5)
+    #plt.ylim(5.002e5,5.007e5)
+    plt.xlim(x0-R0*3.5/22.0,x0+R0*3.5/22.0)
+    plt.ylim(y0-R0*3.0/14.2,y0+R0*3.0/14.2)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
     plt.title(r'$GadgetMUSIC$')
-    plt.savefig('MUSIC Multi-center No1_z_128',dpi=600)
+    plt.savefig('MUSIC Multi_center No1_z_128',dpi=600)
     plt.show()
     return
 fig_music(t = True)
@@ -372,8 +388,10 @@ def fig_GX(p):
     plt.hist2d(inl_gas_gx[:,0],inl_gas_gx[:,1],bins = [1000,1000],
                cmap = 'rainbow',vmin = 1e-1,vmax = snap_N_gx[0]/100,norm=mpl.colors.LogNorm())
     plt.colorbar(label = r'$log[Number density]$')
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0_gx-R0_gx,x0_gx+R0_gx)
+    plt.ylim(y0_gx-R0_gx,y0_gx+R0_gx)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -382,8 +400,10 @@ def fig_GX(p):
     plt.hist2d(inl_DM_gx[:,0],inl_DM_gx[:,1],bins = [1000,1000],
                cmap = 'viridis',vmin = 1e-1,vmax = snap_N_gx[1]/100,norm=mpl.colors.LogNorm())
     plt.colorbar(label = r'$log[Number density]$')
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0_gx-R0_gx,x0_gx+R0_gx)
+    plt.ylim(y0_gx-R0_gx,y0_gx+R0_gx)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -393,8 +413,10 @@ def fig_GX(p):
         plt.hist2d(inl_star_gx[:,0],inl_star_gx[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N_gx[-2]/100,norm=mpl.colors.LogNorm())
         plt.colorbar(label = r'$log[Number density]$')
-        plt.xlim(4.98e5,5.028e5)
-        plt.ylim(4.98e5,5.028e5)
+        #plt.xlim(4.98e5,5.028e5)
+        #plt.ylim(4.98e5,5.028e5)
+        plt.xlim(x0_gx-R0_gx,x0_gx+R0_gx)
+        plt.ylim(y0_gx-R0_gx,y0_gx+R0_gx)
         plt.axis('off')
         plt.xticks([])
         plt.yticks([])
@@ -404,8 +426,10 @@ def fig_GX(p):
     plt.hist2d(inl_disk_gx[:,0],inl_disk_gx[:,1],bins = [500,500],
                cmap = 'cool',vmin = 1e-1,vmax = snap_N_gx[2]/100,norm=mpl.colors.LogNorm())
     plt.colorbar(label = r'$log[Number density]$')
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0_gx-R0_gx,x0_gx+R0_gx)
+    plt.ylim(y0_gx-R0_gx,y0_gx+R0_gx)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -414,8 +438,10 @@ def fig_GX(p):
     plt.hist2d(inl_bulge_gx[:,0],inl_bulge_gx[:,1],bins = [500,500],
                cmap = 'summer',vmin = 1e-1,vmax = snap_N_gx[3]/100,norm=mpl.colors.LogNorm())
     plt.colorbar(label = r'$log[Number density]$')
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0_gx-R0_gx,x0_gx+R0_gx)
+    plt.ylim(y0_gx-R0_gx,y0_gx+R0_gx)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -425,8 +451,10 @@ def fig_GX(p):
         plt.hist2d(inl_bndry_gx[:,0],inl_bndry_gx[:,1],bins = [500,500],
                cmap = 'gist_rainbow',vmin = 1e-1,vmax = snap_N_gx[-1]/100,norm=mpl.colors.LogNorm())
         plt.colorbar(label = r'$log[Number density]$')
-        plt.xlim(4.98e5,5.028e5)
-        plt.ylim(4.98e5,5.028e5)
+        #plt.xlim(4.98e5,5.028e5)
+        #plt.ylim(4.98e5,5.028e5)
+        plt.xlim(x0_gx-R0_gx,x0_gx+R0_gx)
+        plt.ylim(y0_gx-R0_gx,y0_gx+R0_gx)
         plt.axis('off')
         plt.xticks([])
         plt.yticks([])
@@ -442,8 +470,10 @@ def fig_GX(p):
     if snap_N[-2] !=0:
         plt.hist2d(inl_star_gx[:,0],inl_star_gx[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N_gx[-2]/100,norm=mpl.colors.LogNorm())
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0_gx-R0_gx,x0_gx+R0_gx)
+    plt.ylim(y0_gx-R0_gx,y0_gx+R0_gx)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -459,8 +489,10 @@ def fig_GX(p):
         plt.hist2d(inl_star_gx[:,0],inl_star_gx[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N_gx[-2]/100,norm=mpl.colors.LogNorm())
     plt.scatter(x0_gx,y0_gx,s = 50,c = 'k',marker = 'x',)
-    plt.xlim(5.001e5,5.007e5)
-    plt.ylim(5.002e5,5.007e5)
+    #plt.xlim(5.001e5,5.007e5)
+    #plt.ylim(5.002e5,5.007e5)
+    plt.xlim(x0_gx-R0_gx*3.5/22.0,x0_gx+R0_gx*3.5/22.0)
+    plt.ylim(y0_gx-R0_gx*3.0/14.2,y0_gx+R0_gx*3.0/14.2)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -480,8 +512,10 @@ def fig_comparation(q):
     if snap_N[-2] !=0:
         plt.hist2d(inl_star[:,0],inl_star[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N[-2]/100,norm=mpl.colors.LogNorm())
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0-R0,x0+R0)
+    plt.ylim(y0-R0,y0+R0)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -494,8 +528,10 @@ def fig_comparation(q):
     if snap_N[-2] !=0:
         plt.hist2d(inl_star_gx[:,0],inl_star_gx[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N_gx[-2]/100,norm=mpl.colors.LogNorm())
-    plt.xlim(4.98e5,5.028e5)
-    plt.ylim(4.98e5,5.028e5)
+    #plt.xlim(4.98e5,5.028e5)
+    #plt.ylim(4.98e5,5.028e5)
+    plt.xlim(x0_gx-R0_gx,x0_gx+R0_gx)
+    plt.ylim(y0_gx-R0_gx,y0_gx+R0_gx)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -514,8 +550,10 @@ def fig_comparation(q):
         plt.hist2d(inl_star[:,0],inl_star[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N[-2]/100,norm=mpl.colors.LogNorm())
     plt.scatter(x0,y0,s = 50,c = 'k',marker = 'x',)
-    plt.xlim(5.001e5,5.007e5)
-    plt.ylim(5.002e5,5.007e5)
+    #plt.xlim(5.001e5,5.007e5)
+    #plt.ylim(5.002e5,5.007e5)
+    plt.xlim(x0-R0*3.5/22.0,x0+R0*3.5/22.0)
+    plt.ylim(y0-R0*3.0/14.2,y0+R0*3.0/14.2)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])
@@ -529,8 +567,10 @@ def fig_comparation(q):
         plt.hist2d(inl_star_gx[:,0],inl_star_gx[:,1],bins = [1000,1000],
                cmap = 'plasma',vmin = 1e-1,vmax = snap_N_gx[-2]/100,norm=mpl.colors.LogNorm())
     plt.scatter(x0_gx,y0_gx,s = 50,c = 'k',marker = 'x',)
-    plt.xlim(5.001e5,5.007e5)
-    plt.ylim(5.002e5,5.007e5)
+    #plt.xlim(5.001e5,5.007e5)
+    #plt.ylim(5.002e5,5.007e5)
+    plt.xlim(x0_gx-R0_gx*3.5/22.0,x0_gx+R0_gx*3.5/22.0)
+    plt.ylim(y0_gx-R0_gx*3.0/14.2,y0_gx+R0_gx*3.0/14.2)
     plt.axis('off')
     plt.xticks([])
     plt.yticks([])

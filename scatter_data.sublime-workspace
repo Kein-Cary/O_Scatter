@@ -4,8 +4,124 @@
 		"selected_items":
 		[
 			[
+				"m_rho_",
+				"m_rho_d"
+			],
+			[
+				"r_",
+				"r_mu"
+			],
+			[
+				"z_",
+				"z0_gx"
+			],
+			[
+				"rho_",
+				"rho_gx"
+			],
+			[
+				"m_",
+				"m_gx"
+			],
+			[
+				"mean_rho_s",
+				"mean_rho_s_gx〔variable〕"
+			],
+			[
+				"mean_rho_d",
+				"mean_rho_d_gx〔variable〕"
+			],
+			[
+				"inl_rho_d",
+				"inl_rho_d_gx〔variable〕"
+			],
+			[
+				"inl_m_g",
+				"inl_m_g_gx〔variable〕"
+			],
+			[
+				"inl_m_s",
+				"inl_m_s_gx〔variable〕"
+			],
+			[
+				"inl_m_d",
+				"inl_m_d_gx"
+			],
+			[
+				"m_d",
+				"m_d_gx"
+			],
+			[
+				"mean_rho_",
+				"mean_rho_g〔variable〕"
+			],
+			[
+				"mean_",
+				"mean_rho_s〔variable〕"
+			],
+			[
+				"pro_cen_",
+				"pro_cen_y"
+			],
+			[
+				"pro_cen",
+				"pro_cen_x〔variable〕"
+			],
+			[
+				"view",
+				"view_id〔variable〕"
+			],
+			[
+				"vie",
+				"view_id〔variable〕"
+			],
+			[
 				"snap_z",
-				"snap_z_gx〔variable〕"
+				"snap_z_gx"
+			],
+			[
+				"x0_gx",
+				"x0_gx-R0_gx,x0_gx+R0_gx"
+			],
+			[
+				"x0",
+				"x0-R0,x0+R0"
+			],
+			[
+				"Re",
+				"Re_{%.3f}$'%(snap_z_gx,resolution"
+			],
+			[
+				"Re_",
+				"Re_{%.3f"
+			],
+			[
+				"num",
+				"numbins_gx,numbins_gx"
+			],
+			[
+				"numb",
+				"numbins_gx,numbins_gx"
+			],
+			[
+				"_",
+				"_id_"
+			],
+			[
+				"nstar",
+				"nstar_gx"
+			],
+			[
+				"Mstar",
+				"Mstar_gx"
+			],
+			[
+				"per_m",
+				"per_m_s"
+			],
+			[
+				"dd",
+				"dd〔variable〕"
 			],
 			[
 				"dm",
@@ -56,11 +172,29 @@
 	"buffers":
 	[
 		{
-			"file": "/D/mask/snapshot/MUSIC/redshift_list.txt",
+			"file": "/D/Python1/pydocument/seniorproject_quenching2/practice/emecc_1.py",
 			"settings":
 			{
-				"buffer_size": 4775,
-				"line_ending": "Unix"
+				"buffer_size": 2486,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Python1/pydocument/seniorproject_quenching2/practice/Theory_fitting.py",
+			"settings":
+			{
+				"buffer_size": 13870,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Python1/pydocument/seniorproject_quenching2/practice/emecc_to_data.py",
+			"settings":
+			{
+				"buffer_size": 992,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -130,15 +264,52 @@
 	},
 	"expanded_folders":
 	[
+		"/D/迅雷下载/package control"
 	],
 	"file_history":
 	[
+		"/D/mask/snapshot/MUSIC/redshift_list.txt",
+		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/MUSIC_profile_analysis.py",
+		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/profile_evolution.py",
+		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/scatter_music.py",
+		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/Merg_tree_read.py",
+		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/Merg_tree_out.py",
+		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/mass_evolution.py",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_halos",
+		"/C/Users/Administrator/Desktop/Read_BCG_out3.py",
+		"/C/Users/Administrator/Desktop/Read_BCG_out.py",
 		"/C/Users/Administrator/Desktop/Read_snapshot.py",
+		"/C/Users/Administrator/Desktop/Read_BCG_evolution.py",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/AutoPep8.sublime-settings",
+		"/C/Users/Administrator/Desktop/Read_BCG_evolution_fig.py",
+		"/C/Users/Administrator/Desktop/Read_BCG_evolution_fig",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/SublimeREPL.sublime-settings",
+		"/D/迅雷下载/package control/package_control/deps/asn1crypto/cms.py",
+		"/D/迅雷下载/package control/package_control/deps/asn1crypto/x509.py",
+		"/C/Users/Administrator/Desktop/BCG_properties.py",
+		"/D/Python1/pydocument/seniorproject_quenching2/practice/Theory_calculation.py",
+		"/D/Python1/pydocument/seniorproject_quenching2/practice/scatter_fitting_myself.py",
+		"/D/Python1/pydocument/O_Scatter/scatter_data.py",
+		"/D/Python1/pydocument/seniorproject_quenching2/practice/test_version.py",
+		"/D/Python1/pydocument/seniorproject_quenching2/practice/mock_data_reshow.py",
+		"/D/Python1/pydocument/seniorproject_quenching2/practice/scatter_fitting(Unpublication).py",
+		"/D/Python1/pydocument/seniorproject_quenching2/practice/pr_mh_data.py",
+		"/D/Python1/pydocument/seniorproject_quenching2/practice/Last_version.py",
+		"/D/mask/G_X/G_x_redshift/NewMDCLUSTER_0001/GadgetX-NewMDCLUSTER_0001.z0.000.AHF_halos",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_luminosities",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_profiles",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/MergerTree_GadgetMUSIC-NewMDCLUSTER_0001.txt",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.log",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.069.AHF_luminosities",
+		"/D/迅雷下载/师弟/test.py",
+		"/D/迅雷下载/师弟/test2.py",
+		"/D/迅雷下载/师弟/snap_028_z000p000.0.hdf5",
+		"/D/mask/G_X/G_x_redshift/NewMDCLUSTER_0001/GadgetX-NewMDCLUSTER_0001.z0.000.AHF_mtree",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_mtree",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/redshift.h5",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/Redshift_GX.h5",
 		"/D/Python1/pydocument/O_Scatter/G_x_redshift/NewMDCLUSTER_0001/Redshift.h5",
 		"/D/Python1/pydocument/O_Scatter/G_x_redshift/NewMDCLUSTER_0001/redshift_GX.h5",
-		"/D/mask/G_X/G_x_redshift/NewMDCLUSTER_0001/GadgetX-NewMDCLUSTER_0001.z0.000.AHF_halos",
 		"/D/mask/G_X/G_x_redshift/NewMDCLUSTER_0001/MergerTree_GadgetX-NewMDCLUSTER_0001.txt",
 		"/D/mask/G_X/VoidMDPL_0100/GadgetX-VoidMDPL_0100.z0.000.AHF_halos",
 		"/D/Python1/pydocument/O_Scatter/MDPL2/NewMDCLUSTER_0001/MergerTree_MDPL2-NewMDCLUSTER_0001.txt",
@@ -147,14 +318,12 @@
 		"/D/Python1/pydocument/O_Scatter/README.md",
 		"/D/Python1/pydocument/seniorproject_quenching2/practice/emecc_1.py",
 		"/D/mask/snapshot/MUSIC/output_list.txt",
-		"/D/mask/snapshot/MUSIC/redshift_list.txt",
 		"/D/mask/snapshot/GX/sfr.txt",
 		"/D/mask/snapshot/GX/snap_128.mesh",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_mtree",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_mtree_idx",
 		"/D/mask/snapshot/GX/b",
 		"/D/Python1/pydocument/O_Scatter/scatter.py",
-		"/D/Python1/pydocument/O_Scatter/scatter_data.py",
 		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
 		"/D/Python1/pydocument/O_Scatter/scatter_data.sublime-workspace",
 		"/D/mask/snapshot/MUSIC/snap_000",
@@ -223,48 +392,14 @@
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_profiles",
 		"/D/documentofschool/课件或作业/01祖颖老师/scatter/AHF_brief_view.pdf",
 		"/D/Python1/pydocument/seniorproject_quenching2/practice/Mock_SceondFigure.py",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/mock_data_reshow.py",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z12.966.AHF_halos",
 		"/D/Python1/pydocument/seniorproject_quenching2/practice/Theory_fitting.py",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z13.265.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z13.265.AHF_luminosities",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z12.661.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z12.351.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z12.055.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z11.771.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z11.500.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z11.225.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z10.962.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z10.696.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z16.982.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z7.576.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/m_halo.h5",
-		"/D/Python1/pydocument/save_data2.h5",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/Scatter_data_1.py",
-		"/D/Python1/pydocument/O_Scatter/Scatter_data_1.py",
-		"/D/mask/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.parameter",
-		"/D/mask/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.log",
-		"/D/Python1/pydocument/O_Scatter/Scatter_data",
-		"/D/mask/G_x_redshift/NewMDCLUSTER_0001/backup/GadgetX-NewMDCLUSTER_0001.z0.068.AHF_magnitudes-JPLUS",
-		"/D/迅雷下载/pynbody/pynbody-master/setup.py",
-		"/D/迅雷下载/pynbody/pynbody-master/README.md",
-		"/D/迅雷下载/trices/blue_fitting.sfit",
-		"/D/mask/MUSIC/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_particlesSTARDUSTexcised",
-		"/D/mask/MUSIC/NewMDCLUSTER_0324/GadgetMUSIC-NewMDCLUSTER_0324.z0.000.AHF_mtree_idx",
-		"/D/mask/MUSIC/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_luminosities",
-		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/Last_version.py",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/test_version.py",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/Theory_calculation.py",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/bug_correction.py",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/comparation.py",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/all_sigam_sinal.py",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/pr_mh_data.py",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/__pycache__/mock_fit"
+		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z13.265.AHF_luminosities"
 	],
 	"find":
 	{
-		"height": 41.6
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -278,6 +413,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"raise",
+			"N_size",
+			"Nsize",
+			"plane_id",
+			"theory_fun3",
+			"R0",
+			"plt.close()",
 			"_main_",
 			"plt"
 		],
@@ -297,31 +439,89 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/D/mask/snapshot/MUSIC/redshift_list.txt",
+					"file": "/D/Python1/pydocument/seniorproject_quenching2/practice/emecc_1.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4775,
+						"buffer_size": 2486,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								593,
-								593
+								362,
+								362
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 706.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/D/Python1/pydocument/seniorproject_quenching2/practice/Theory_fitting.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13870,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9488,
+								9488
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1080.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/D/Python1/pydocument/seniorproject_quenching2/practice/emecc_to_data.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 992,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								992,
+								992
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"syntax": "Packages/Python/Python.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -376,7 +576,7 @@
 	{
 		"height": 0.0
 	},
-	"pinned_build_system": "",
+	"pinned_build_system": "Packages/Python/Python.sublime-build",
 	"project": "scatter_data.py",
 	"replace":
 	{
@@ -411,12 +611,16 @@
 	},
 	"select_symbol":
 	{
-		"height": 0.0,
+		"height": 392.0,
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"AttributeCertificateInfoV2"
+			]
 		],
-		"width": 0.0
+		"width": 592.0
 	},
 	"selected_group": 0,
 	"settings":

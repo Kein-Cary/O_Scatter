@@ -338,5 +338,5 @@ def halo_image(z,hid,z_gx,hid_gx):
     plt.tight_layout()
     plt.savefig('Image halo',dpi=600)
     plt.show()
-    return
+    return 
 halo_image(z=redshift,hid=halo_id,z_gx=redshift_gx,hid_gx=halo_id_gx)
