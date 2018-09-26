@@ -13,7 +13,7 @@ f = h5py.File('Redshift.h5','r')
 y0 = f['a']
 z = np.array(y0)
 f.close()
-#print(z)
+print(z)
 #read the main_tree text(which saved in the Merg_tree_read file)
 with h5py.File('main_tree.h5') as f:
     y = f['a']

@@ -196,6 +196,14 @@
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
+		},
+		{
+			"file": "/D/mask/snapshot/MUSIC/redshift_list.txt",
+			"settings":
+			{
+				"buffer_size": 4775,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "Packages/Python/Python.sublime-build",
@@ -268,6 +276,13 @@
 	],
 	"file_history":
 	[
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_halos",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z10.442.AHF_halos",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z11.225.AHF_halos",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z13.265.AHF_halos",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z14.244.AHF_halos",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z15.667.AHF_halos",
+		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z16.982.AHF_halos",
 		"/D/mask/snapshot/MUSIC/redshift_list.txt",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/MUSIC_profile_analysis.py",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/profile_evolution.py",
@@ -275,7 +290,6 @@
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/Merg_tree_read.py",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/Merg_tree_out.py",
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/mass_evolution.py",
-		"/D/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_halos",
 		"/C/Users/Administrator/Desktop/Read_BCG_out3.py",
 		"/C/Users/Administrator/Desktop/Read_BCG_out.py",
 		"/C/Users/Administrator/Desktop/Read_snapshot.py",
@@ -389,13 +403,7 @@
 		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.045.AHF_halos",
 		"/D/mask/MUSIC/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_substructure",
 		"/D/mask/MUSIC/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_magnitudes",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_profiles",
-		"/D/documentofschool/课件或作业/01祖颖老师/scatter/AHF_brief_view.pdf",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/Mock_SceondFigure.py",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z12.966.AHF_halos",
-		"/D/Python1/pydocument/seniorproject_quenching2/practice/Theory_fitting.py",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z13.265.AHF_halos",
-		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z13.265.AHF_luminosities"
+		"/D/Python1/pydocument/O_Scatter/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_profiles"
 	],
 	"find":
 	{
@@ -439,7 +447,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -468,7 +476,7 @@
 						"translation.y": 706.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -495,10 +503,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1080.0,
+						"translation.y": 2430.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -522,6 +530,34 @@
 						{
 							"auto_complete": false,
 							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/mask/snapshot/MUSIC/redshift_list.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4775,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								49,
+								49
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
