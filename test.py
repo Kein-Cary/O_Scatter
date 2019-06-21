@@ -39,30 +39,30 @@ Nsize = np.ceil(N_size)
 choose = 1
 #######################section1:read out the position data of MUSIC
 if choose == 0:
-    snap_z = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'redshift')
+    snap_z = pygdr.readheader('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'redshift')
     snap_z = np.abs(snap_z)
     print('Now redshift is %.3f'%snap_z)
-    snap_N = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'npartTotal')
+    snap_N = pygdr.readheader('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'npartTotal')
     print('Now particles:\n gas %.0f\n dark matter %.0f\n disk %.0f\n bulge %.0f\n star %.0f\n boundary %.0f'
           %(snap_N[0],snap_N[1],snap_N[2],snap_N[3],snap_N[4],snap_N[5]))
-    snap_name = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'header')
+    snap_name = pygdr.readheader('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'header')
     print(snap_name)
     
-    snap_mass_gas = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'mass','gas')
-    snap_inE = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'U','gas') 
-    snap_rho = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'RHO','gas') 
-    snap_OmegaB = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'Omega0')
+    snap_mass_gas = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'mass','gas')
+    snap_inE = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'U','gas') 
+    snap_rho = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'RHO','gas') 
+    snap_OmegaB = pygdr.readheader('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'Omega0')
     print('omegaB=',snap_OmegaB)
     OmegaB = snap_OmegaB
-    snap_H = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'h')
-    snap_time = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'time')
+    snap_H = pygdr.readheader('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'h')
+    snap_time = pygdr.readheader('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'time')
     time = np.abs(snap_time)
     #PS:NE -- electron number friction is exactlly for each particle,and the same as NH.
-    snap_NE = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'NE','gas')
+    snap_NE = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'NE','gas')
     Ne = snap_NE
-    snap_NH = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'NH','gas')
+    snap_NH = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'NH','gas')
     Nh = snap_NH
-    
+    '''
     yhe = (1-xH)/(4*xH)
     mean_m_weight = (1+4*yhe)/(1+yhe+Ne)
     V_unit = 10**5*np.sqrt(time)
@@ -72,17 +72,17 @@ if choose == 0:
     H = snap_H*100
     rho_bar = OmegaB*3*H**2/(8*np.pi*W.value)
     ratio_rho = snap_rho/rho_bar
-    
+    '''
     #read the position of gas
-    snap_shot_gas = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'pos','gas')
+    snap_shot_gas = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'pos','gas')
     try:
-        snap_shot_star = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'pos','star')
-        snap_mass_star = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'mass','star')
+        snap_shot_star = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'pos','star')
+        snap_mass_star = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'mass','star')
     except SystemExit:
         print('no star particles now')    
-    snap_SFR = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/MUSIC/snap_%s'%No_snap,'SFR ',0)
+    snap_SFR = pygdr.readsnap('D:/mask/snapshot/MUSIC/snap_%s'%No_snap,'SFR ',0)
     #the total mass distribution of snap_shot_128
-    main_halo = asc.read('/home/xiaokai-chen/mywork/data/halo/MUSIC/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_halos',
+    main_halo = asc.read('D:/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z0.000.AHF_halos',
                          converters={'col1':[asc.convert_numpy(np.int64)], 'col2':[asc.convert_numpy(np.int64)]})
     Rvir = np.array(main_halo['col12'])
     xhalo = np.array(main_halo['col6'])
@@ -95,7 +95,7 @@ if choose == 0:
     R0 = Rvir[_id_]
     nbins0 = Nbins[_id_]
     #figure the temperature distribution of main halo 
-    main_profile = pd.read_table('/home/xiaokai-chen/mywork/data/halo/MUSIC/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z%.3f.AHF_profiles'%snap_z,
+    main_profile = pd.read_table('D:/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001.z%.3f.AHF_profiles'%snap_z,
                                  dtype = np.float)
     r = np.array(main_profile['#r(1)'])
     r = np.abs(r)
@@ -105,30 +105,31 @@ if choose == 0:
         sum_bin = np.sum(Nbins[0:_id_])
         R = r[sum_bin : sum_bin + nbins0]
     L_R = len(R)
+    
 #######################section1:read out the position data of GadgetX
 elif choose == 1:
-    snap_z = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'redshift')
+    snap_z = pygdr.readheader('D:/mask/snapshot/GX/snap_%s'%No_snap,'redshift')
     snap_z = np.abs(snap_z)
     print('Now redshift is %.3f'%snap_z)
-    snap_N = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'npartTotal')
+    snap_N = pygdr.readheader('D:/mask/snapshot/GX/snap_%s'%No_snap,'npartTotal')
     print('Now particles:\n gas %.0f\n dark matter %.0f\n disk %.0f\n bulge %.0f\n star %.0f\n boundary %.0f'
           %(snap_N[0],snap_N[1],snap_N[2],snap_N[3],snap_N[4],snap_N[5]))
-    snap_name = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'header')
+    snap_name = pygdr.readheader('D:/mask/snapshot/GX/snap_%s'%No_snap,'header')
     print(snap_name)
     
-    snap_mass_gas = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'mass','gas')
-    snap_inE = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'U','gas') 
-    snap_rho = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'RHO','gas') 
-    snap_OmegaB = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'Omega0')
+    snap_mass_gas = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'mass','gas')
+    snap_inE = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'U','gas') 
+    snap_rho = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'RHO','gas') 
+    snap_OmegaB = pygdr.readheader('D:/mask/snapshot/GX/snap_%s'%No_snap,'Omega0')
     print('omegaB=',snap_OmegaB)
     OmegaB = snap_OmegaB
-    snap_H = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'h')
-    snap_time = pygdr.readheader('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'time')
+    snap_H = pygdr.readheader('D:/mask/snapshot/GX/snap_%s'%No_snap,'h')
+    snap_time = pygdr.readheader('D:/mask/snapshot/GX/snap_%s'%No_snap,'time')
     time = np.abs(snap_time)
     #PS:NE -- electron number friction is exactlly for each particle,and the same as NH.
-    snap_NE = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'NE','gas')
+    snap_NE = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'NE','gas')
     Ne = snap_NE
-    snap_NH = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'NH','gas')
+    snap_NH = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'NH','gas')
     Nh = snap_NH
     ### try to get the temperature from U
     yhe = (1-xH)/(4*xH)
@@ -141,19 +142,19 @@ elif choose == 1:
     rho_bar = OmegaB*3*H**2/(8*np.pi*W.value)
     ratio_rho = snap_rho/rho_bar
     #read the gas position and temperature
-    snap_shot_gas = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'pos','gas')
+    snap_shot_gas = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'pos','gas')
     try:
-        snap_T = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'TEMP','gas')
+        snap_T = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'TEMP','gas')
     except SystemExit:
         print('no gas temperature now')
     try:
-        snap_shot_star = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'pos','star')
-        snap_mass_star = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'mass','star')
+        snap_shot_star = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'pos','star')
+        snap_mass_star = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'mass','star')
     except SystemExit:
         print('no star particles now')
-    snap_SFR = pygdr.readsnap('/home/xiaokai-chen/mywork/data/snapshot/GX/snap_%s'%No_snap,'SFR ',0)
+    snap_SFR = pygdr.readsnap('D:/mask/snapshot/GX/snap_%s'%No_snap,'SFR ',0)
     #the total mass distribution of snap_shot_128
-    main_halo = asc.read('/home/xiaokai-chen/mywork/data/halo/GX/NewMDCLUSTER_0001/GadgetX-NewMDCLUSTER_0001.z0.000.AHF_halos',
+    main_halo = asc.read('D:/mask/G_X/G_x_redshift/NewMDCLUSTER_0001/GadgetX-NewMDCLUSTER_0001.z0.000.AHF_halos',
                       converters={'col1':[asc.convert_numpy(np.int64)], 'col2':[asc.convert_numpy(np.int64)]})
     Rvir = np.array(main_halo['col12'])
     xhalo = np.array(main_halo['col6'])
@@ -166,7 +167,7 @@ elif choose == 1:
     R0 = Rvir[_id_]   
     nbins0 = Nbins[_id_]
     #figure the temperature distribution of main halo 
-    main_profile = pd.read_table('/home/xiaokai-chen/mywork/data/halo/GX/NewMDCLUSTER_0001/GadgetX-NewMDCLUSTER_0001.z%.3f.AHF_profiles'%snap_z,
+    main_profile = pd.read_table('D:/mask/G_X/G_x_redshift/NewMDCLUSTER_0001/GadgetX-NewMDCLUSTER_0001.z%.3f.AHF_profiles'%snap_z,
                                  dtype = np.float)
     r = np.array(main_profile['#r(1)'])
     r = np.abs(r)
@@ -177,7 +178,7 @@ elif choose == 1:
         R = r[sum_bin : sum_bin + nbins0]
     L_R = len(R)
 else :
-    print('Please selection 1(for GadgetX) or 0(for MUSIC)')  
+    print('Please selection 1(for GadgetX) or 0(for MUSIC)')
 #######################section2:selection the data in goal halo
 if choose == 0 or choose == 1:
     dgas = np.sqrt((snap_shot_gas[:, 0]-x0)**2 +
@@ -293,7 +294,7 @@ if choose == 0 or choose == 1:
         plt.title(r'$SFR-\rho_{gas}-mainhalo-MU$')
         plt.savefig('SFR-rho-gas-halo-MU',dpi=600)
         plt.show()
-        raise
+        
         plt.plot(R,mean_T_m,'r-',label = r'$\bar{T}-r-in-M$')
         plt.plot(R,mean_T_n,'b-',label = r'$\bar{T}-r-in-N$')
         plt.legend(loc = 4)
@@ -361,7 +362,7 @@ if choose == 0 or choose == 1:
         plt.title(r'$SFR-\rho_{gas}-mainhalo-GX$')
         plt.savefig('SFR-rho-gas-halo-GX',dpi=600)
         plt.show()
-        raise
+        
         plt.plot(R,mean_T_m,'r-',label = r'$\bar{T}-r-in-M$')
         plt.plot(R,mean_T_n,'b-',label = r'$\bar{T}-r-in-N$')
         plt.legend(loc = 4)

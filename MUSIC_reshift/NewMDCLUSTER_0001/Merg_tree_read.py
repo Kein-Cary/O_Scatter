@@ -7,30 +7,17 @@ import astropy.io.ascii as asc
 import numpy as np
 import glob
 import h5py 
-import matplotlib.pyplot as plt
-#'D:/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/'
-##firstly,try to read the red_shift value
+
 namestr = glob.glob('D:/mask/MUSIC/MUSIC_reshift/NewMDCLUSTER_0001/GadgetMUSIC-NewMDCLUSTER_0001*AHF_halos')
-#print(namestr[0])
 red_shift = [float(namestr[77:-10]) for namestr in namestr]
 print(red_shift)
-'''
-plt.plot(red_shift,'g*-')
-plt.ylabel('z')
-plt.xlabel('without_order')
-plt.show()
-'''
+raise
 ##sort to red_shift and save as h5py file
 redshift = np.sort(red_shift)
 with h5py.File('redshift.h5','w') as f:
      f['a'] = np.array(redshift)
 print(redshift)
-'''
-plt.plot(redshift,'g*-')
-plt.ylabel('z')
-plt.xlabel('with_order')
-plt.show()
-'''
+
 ##next step,try to read the analysis catalogue from the data,and save as h5py files
 ###firstly,read the halo mass and the red_shift
 ##get the number of main halo

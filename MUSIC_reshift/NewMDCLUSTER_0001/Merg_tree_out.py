@@ -18,16 +18,16 @@ print(z)
 with h5py.File('main_tree.h5') as f:
     y = f['a']
     main_tree = np.array(y)
-#print(main_tree.shape[0])
+print(main_tree.shape[0])
 L = main_tree.shape[0]
-iv = np.zeros(L,dtype = np.int0)
+iv = np.zeros(L, dtype = np.int0)
 for k in range(L):
     ia  = main_tree[k,:]!=0
     ar_use = main_tree[k,:]*1
     maintree = ar_use[ia]
     da = len(maintree)
     iv[k] = da
-iv = iv[iv !=0 ]
-io = np.max(iv)
+iu = iv[iv !=0 ]
+io = np.max(iu)
 z_value = z[io]
 print(z_value)
