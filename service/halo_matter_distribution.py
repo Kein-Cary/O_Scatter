@@ -24,7 +24,8 @@ CID = np.sort(C_id)
 def snap_show():
 	load2 = 'NewMDCLUSTER_'
 
-	sub_set = ['0145', '0153', '0182']
+	#sub_set = ['0145', '0153', '0182']
+	sub_set = ['0110', '0121', '0132', '0182']
 	'''
 	sub_set = C_id
 	'''
@@ -117,6 +118,7 @@ def snap_show():
 					cmap = 'Reds',vmin = 1e-1,vmax = snap_N[-2]/10,norm=mpl.colors.LogNorm(), alpha = 0.5)	
 				plt.xlim(x0 - R0, x0 + R0)
 				plt.ylim(y0 - R0, y0 + R0)
+				plt.text(x0, y0, s = '%.2f, %.2f'% (x0, y0))
 				plt.axis('off')
 				plt.xticks([])
 				plt.yticks([])

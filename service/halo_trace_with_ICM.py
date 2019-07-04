@@ -257,8 +257,13 @@ def ICM_GX():
 	return
 
 def fig_out():
-	#sub_set = ['0145', '0182'] 
-	sub_set = ['0153', '0182']
+	import matplotlib.ticker as ticks
+	"""
+	sub_set = ['younger number', 'older number']
+	"""
+	#sub_set = ['0145', '0153']
+	#sub_set = ['0145', '0146']
+	sub_set = ['0145', '0135']
 	setN = len(sub_set)
 	Z = []
 	M_sat = []
@@ -280,9 +285,6 @@ def fig_out():
 		M_bcg.append(mbcg)
 		M_icm.append(micm)
 
-	Zt = Z[1]
-	tL = Plank.lookback_time(Zt)
-
 	zh0 = np.array(Z[0])
 	zh1 = np.array(Z[1])
 	Mh0 = np.array(M_h[0])
@@ -293,79 +295,87 @@ def fig_out():
 	Msat0 = np.array(M_sat[0])
 	Msat1 = np.array(M_sat[1])
 	
-	eta_sat0 = Msat0[Msat0 != 0] / Mh0[Msat0 != 0]
-	eta_sat1 = Msat1[Msat1 != 0] / Mh1[Msat1 != 0]
-	'''
-	eta_sat0 = Msat0[Msat0 != 0] / Mh0[0]
-	eta_sat1 = Msat1[Msat1 != 0] / Mh1[0]
-	'''
-	
+	eta_sat0 = Msat0[Msat0 >= 10**11] / Mh0[Msat0 >= 10**11]
+	zsat0 = zh0[Msat0 >= 10**11]
+	eta_sat1 = Msat1[Msat1 >= 10**11] / Mh1[Msat1 >= 10**11]
+	zsat1 = zh1[Msat1 >= 10**11]
+
 	Mbcg0 = np.array(M_bcg[0])
 	Mbcg1 = np.array(M_bcg[1])
 	
-	eta_bcg0 = Mbcg0[Mbcg0 != 0] / Mh0[Mbcg0 != 0]
-	eta_bcg1 = Mbcg1[Mbcg1 != 0] / Mh1[Mbcg1 != 0]
-	'''
-	eta_bcg0 = Mbcg0[Mbcg0 != 0] / Mh0[0]
-	eta_bcg1 = Mbcg1[Mbcg1 != 0] / Mh1[0]
-	'''
+	eta_bcg0 = Mbcg0[Mbcg0 >= 10**11] / Mh0[Mbcg0 >= 10**11]
+	zbcg0 = zh0[Mbcg0 >= 10**11]
+	eta_bcg1 = Mbcg1[Mbcg1 >= 10**11] / Mh1[Mbcg1 >= 10**11]
+	zbcg1 = zh1[Mbcg1 >= 10**11]
 
 	Micm0 = np.array(M_icm[0])
 	Micm1 = np.array(M_icm[1])
 	
-	eta_icm0 = Micm0[Micm0 != 0] / Mh0[Micm0 != 0]
-	eta_icm1 = Micm1[Micm1 != 0] / Mh1[Micm1 != 0]
-	'''
-	eta_icm0 = Micm0[Micm0 != 0] / Mh0[0]
-	eta_icm1 = Micm1[Micm1 != 0] / Mh1[0]
-	'''
+	eta_icm0 = Micm0[Micm0 >= 10**11] / Mh0[Micm0 >= 10**11]
+	zicm0 = zh0[Micm0 >= 10**11]
+	eta_icm1 = Micm1[Micm1 >= 10**11] / Mh1[Micm1 >= 10**11]
+	zicm1 = zh1[Micm1 >= 10**11]
+	eps = 1e-2
 
-	plt.figure(figsize = (16, 12))
+	fig = plt.figure(figsize = (12, 12))
 	gs = gridspec.GridSpec(2, 1, height_ratios = [3, 2])
 	ax = plt.subplot(gs[0])
-	bx = plt.subplot(gs[1])
+	bx = plt.subplot(gs[1], sharex = ax)
 
-	ax.set_title('Assembly comparation')
-	ax.plot(np.log10(1 + zh0[Mh0 != 0]), Mh0[Mh0 != 0], 'k-', label = r'$M_{h} \, C_{%s}$' % sub_set[0])
-	ax.plot(np.log10(1 + zh0[Msat0 != 0]), Msat0[Msat0 != 0], 'b-', label = r'$M_{sat} \, C_{%s}$' % sub_set[0])
-	ax.plot(np.log10(1 + zh0[Mbcg0 != 0]), Mbcg0[Mbcg0 != 0], 'r-', label = r'$M_{BCG} \, C_{%s}$' % sub_set[0])
-	ax.plot(np.log10(1 + zh0[Micm0 != 0]), Micm0[Micm0 != 0], 'g-', label = r'$M_{ICM} \, C_{%s}$' % sub_set[0])
-	ax.plot(np.log10(1 + zh1[Mh1 != 0]), Mh1[Mh1 != 0], 'k--', label = r'$M_{h} \, C_{%s}$' % sub_set[1])
-	ax.plot(np.log10(1 + zh1[Msat1 != 0]), Msat1[Msat1 != 0], 'b--', label = r'$M_{sat} \, C_{%s}$' % sub_set[1])
-	ax.plot(np.log10(1 + zh1[Mbcg1 != 0]), Mbcg1[Mbcg1 != 0], 'r--', label = r'$M_{BCG} \, C_{%s}$' % sub_set[1])
-	ax.plot(np.log10(1 + zh1[Micm1 != 0]), Micm1[Micm1 != 0], 'g--', label = r'$M_{ICM} \, C_{%s}$' % sub_set[1])
+	ax.set_title('Assembly history', fontsize = 15)
+	ax.plot(np.log10(1 + zh0[(Mh0 != 0) & (Mh0* eps >= 10**11)]),
+		Mh0[(Mh0 != 0) & (Mh0* eps >= 10**11)] * eps, 'k-', label = r'$M_{h}/10^{2} \, Younger$')
+	ax.plot(np.log10(1 + zh0[(Msat0 != 0) & (Msat0 >= 10**11)]),
+		Msat0[(Msat0 != 0) & (Msat0 >= 10**11)], 'b-', label = r'$M_{sat} \, Younger$')
+	ax.plot(np.log10(1 + zh0[(Mbcg0 != 0) & (Mbcg0 >= 10**11)]),
+		Mbcg0[(Mbcg0 != 0) & (Mbcg0 >= 10**11)], 'r-', label = r'$M_{BCG} \, Younger$')
+	ax.plot(np.log10(1 + zh0[(Micm0 != 0) & (Micm0 >= 10**11)]), 
+		Micm0[(Micm0 != 0) & (Micm0 >= 10**11)], 'g-', label = r'$M_{ICM} \, Younger$')
+
+	ax.plot(np.log10(1 + zh1[(Mh1 != 0) & (Mh1* eps >= 10**11)]),
+		Mh1[(Mh1 != 0) & (Mh1* eps >= 10**11)] * eps, 'k--', label = r'$M_{h}/10^{2} \, Older$')
+	ax.plot(np.log10(1 + zh1[(Msat1 != 0) & (Msat1 >= 10**11)]), 
+		Msat1[(Msat1 != 0) & (Msat1 >= 10**11)], 'b--', label = r'$M_{sat} \, Older$')
+	ax.plot(np.log10(1 + zh1[(Mbcg1 != 0) & (Mbcg1 >= 10**11)]), 
+		Mbcg1[(Mbcg1 != 0) & (Mbcg1 >= 10**11)], 'r--', label = r'$M_{BCG} \, Older$')
+	ax.plot(np.log10(1 + zh1[(Micm1 != 0) & (Micm1 >= 10**11)]), 
+		Micm1[(Micm1 != 0) & (Micm1 >= 10**11)], 'g--', label = r'$M_{ICM} \, Older$')
+
+	bx.plot(np.log10(1 + zsat0), eta_sat0, 'b-', label = r'$M_{sat} / M_h \, Younger$')
+	bx.plot(np.log10(1 + zbcg0), eta_bcg0, 'r-', label = r'$M_{BCG} / M_h \, Younger$')
+	bx.plot(np.log10(1 + zicm0), eta_icm0, 'g-', label = r'$M_{ICM} / M_h \, Younger$')
+	bx.plot(np.log10(1 + zsat1), eta_sat1, 'b--', label = r'$M_{sat} / M_h \, Older$')
+	bx.plot(np.log10(1 + zbcg1), eta_bcg1, 'r--', label = r'$M_{BCG} / M_h \, Older$')
+	bx.plot(np.log10(1 + zicm1), eta_icm1, 'g--', label = r'$M_{ICM} / M_h \, Older$')
+
+	bx.set_xlim(0, 0.8)
+	bx.set_xlabel(r'$log(1+z)$', fontsize = 12)
+	bx.set_ylabel(r'$Mass \; ratio$', fontsize = 12)
+	bx.set_yscale('log')
+	bx.tick_params(axis = 'both', which = 'both', direction = 'in', labelsize = 12)
+	bx.legend(loc = 4, fontsize = 12)
 
 	ax1 = ax.twiny()
-	ax1.plot(tL[Mh1 != 0], Mh1[Mh1 != 0], 'w--')
-	#ax1.set_xscale('log')
-	ax1.set_xlabel(r'$look \; back \; time[Gyr]$')
-	ax1.set_yscale('log')
+	xtik = ax.get_xticks()
+	Zt = 10**(xtik) - 1
+	LBT = Plank.lookback_time(Zt).value
+	ax1.set_xticks(xtik)
+	ax1.set_xticklabels(["%.2f" % ll for ll in LBT])
+	ax1.set_xlim(ax.get_xlim())
+	ax1.set_xlabel(r'$look \; back \; time[Gyr]$', fontsize = 12)
 
-	ax.set_xlabel('log(1+z)')
-	ax.set_ylabel(r'$M[M_{\odot}/h]$')
+	ax.set_ylabel(r'$M[M_{\odot}/h]$', fontsize = 12)
 	ax.set_yscale('log')
-	#ax.set_xscale('log')
-	ax.legend(loc = 1)
-	ax.tick_params(axis = 'both', which = 'both', direction = 'in')
-	ax1.tick_params(axis = 'x', which = 'both', direction = 'in')
-	
-	bx.plot(np.log10(1 + zh0[Msat0 != 0]), eta_sat0, 'b-', label = r'$\eta_{M_{sat} / M_h} \, %s$' % sub_set[0])
-	bx.plot(np.log10(1 + zh0[Mbcg0 != 0]), eta_bcg0, 'r-', label = r'$\eta_{M_{BCG} / M_h} \, %s$' % sub_set[0])
-	bx.plot(np.log10(1 + zh0[Micm0 != 0]), eta_icm0, 'g-', label = r'$\eta_{M_{ICM} / M_h} \, %s$' % sub_set[0])
-	bx.plot(np.log10(1 + zh1[Msat1 != 0]), eta_sat1, 'b--', label = r'$\eta_{M_{sat} / M_h} \, %s$' % sub_set[1])
-	bx.plot(np.log10(1 + zh1[Mbcg1 != 0]), eta_bcg1, 'r--', label = r'$\eta_{M_{BCG} / M_h} \, %s$' % sub_set[1])
-	bx.plot(np.log10(1 + zh1[Micm1 != 0]), eta_icm1, 'g--', label = r'$\eta_{M_{ICM} / M_h} \, %s$' % sub_set[1])
+	ax.legend(loc = 1, fontsize = 12)
+	ax.tick_params(axis = 'both', which = 'both', direction = 'in', labelsize = 12)
+	ax1.tick_params(axis = 'x', which = 'both', direction = 'in', labelsize = 12)
 
-	#bx.set_xscale('log')
-	bx.set_xlabel(r'$log(1+z)$')
-	bx.set_ylabel(r'$\eta_{M}$')
-	bx.set_yscale('log')
-	bx.tick_params(axis = 'both', which = 'both', direction = 'in')
-	bx.legend(loc = 1)
-
-	plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/assembly_comparation_%s_%s.png' % (sub_set[0], sub_set[1]), dpi = 300)
-	#plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/assembly_comparation_%s_%s_on_Mh0.png' % (sub_set[0], sub_set[1]), dpi = 300)
+	plt.subplots_adjust(hspace = 0)
+	plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/compare_fig/assembly_comparation_%s_%s.png' 
+		% (sub_set[0], sub_set[1]), dpi = 300)
 	plt.close()
+
+	raise
 	return
 
 def main():
