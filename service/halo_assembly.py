@@ -142,7 +142,8 @@ def sample_divide():
 		Zhuf0 = np.array(Z_huf0)
 		# sample divided
 		Mh0 = [m[0] for m in Mh]
-		edg = 0.5 * (np.min(Zhuf) + np.max(Zhuf))
+		#edg = 0.5 * (np.min(Zhuf) + np.max(Zhuf))
+		edg = np.median(Zhuf)
 		plt.figure()
 		plt.plot(Zhuf, Mh0, 'bo', alpha = 0.5)
 		plt.axvline(x = edg, color = 'r', ls = '--')

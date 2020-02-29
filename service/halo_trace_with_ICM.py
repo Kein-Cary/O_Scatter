@@ -76,7 +76,6 @@ def ICM_GX():
 		m_ICM = np.zeros(N, dtype = np.float)
 
 		m_s_iner = np.zeros(N, dtype = np.float)
-		m_s_media = np.zeros(N, dtype = np.float)
 		m_s_out = np.zeros(N, dtype = np.float)
 		for q in range(N):
 			subz = zc[q]
@@ -202,18 +201,13 @@ def ICM_GX():
 						inlmass_star1 = inlmass_star[isr1]
 						m_s_iner[q] = np.sum(inlmass_star[isr1])*10**10
 
-						isr2 = (drs > R_in) & (drs <= R_out)
+						isr2 = (drs > R_in) & (drs <= R0)
 						inlstar2 = inlstar[isr2, :]
 						inlmass_star2 = inlmass_star[isr2]
-						m_s_media[q] = np.sum(inlmass_star[isr2])*10**10
+						m_s_out[q] = np.sum(inlmass_star[isr2])*10**10
 
-						isr3 = (drs > R_out) & (drs <= R0)
-						inlstar3 = inlstar[isr3, :]
-						inlmass_star3 = inlmass_star[isr3]
-						m_s_out[q] = np.sum(inlmass_star[isr3])*10**10
-
-						pos = inlstar3*1
-						out_star = inlmass_star3*1
+						pos = inlstar2 * 1
+						out_star = inlmass_star2 * 1
 						for tt in range(len(sub_r)):
 							dr = np.sqrt((pos[:,0] - sub_x[tt])**2 + 
 								(pos[:,1] - sub_y[tt])**2 + (pos[:,2] - sub_z[tt])**2)
@@ -235,16 +229,13 @@ def ICM_GX():
 		md = np.array(m_d[il])
 
 		ms_iner = np.array(m_s_iner[il])
-		ms_media = np.array(m_s_media[il])
 		ms_out = np.array(m_s_out[il])
 
 		ms_sat = np.array(m_sat[il])
 		ms_ICL = np.array(m_ICL[il])
 		ms_bcg = np.array(m_bcg[il])
 		ms_ICM = np.array(m_ICM[il])
-		region_data = np.array([zgx, ms, md, 
-						ms_iner, ms_media, ms_out, 
-						ms_sat, ms_ICL, ms_bcg, ms_ICM])
+		region_data = np.array([zgx, ms, md, ms_iner, ms_out, ms_sat, ms_ICL, ms_bcg, ms_ICM])
 		with h5py.File(
 				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/tree_h5/C_%s_mass_trck_with_ICM.h5' % CID[k], 'w') as f:
 			f['a'] = np.array(region_data)
@@ -257,40 +248,43 @@ def ICM_GX():
 	return
 
 def fig_out():
-	import matplotlib.ticker as ticks
 	"""
 	sub_set = ['younger number', 'older number']
 	"""
 	#sub_set = ['0145', '0153']
 	#sub_set = ['0145', '0146']
-	sub_set = ['0145', '0135']
+	#sub_set = ['0145', '0135']
+	sub_set = ['0121', '0120']
 	setN = len(sub_set)
 	Z = []
 	M_sat = []
 	M_bcg = []
 	M_icm = []
 	M_h = []
+	M_s = []
 	for k in range(setN):
 		with h5py.File('/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/tree_h5/C_%s_mass_trck_with_ICM.h5' % sub_set[k]) as f:
 			record = np.array(f['a'])
 		zgx = record[0,:]
+		ms = record[1,:]
 		mh = record[2,:]
-		msat = record[6,:]
-		mbcg = record[8,:]
-		micm = record[9,:]
+		msat = record[5,:]
+		mbcg = record[7,:]
+		micm = record[8,:]
 
 		Z.append(zgx)
 		M_h.append(mh)
 		M_sat.append(msat)
 		M_bcg.append(mbcg)
 		M_icm.append(micm)
+		M_s.append(ms)
 
 	zh0 = np.array(Z[0])
 	zh1 = np.array(Z[1])
 	Mh0 = np.array(M_h[0])
 	Mh1 = np.array(M_h[1])
-	eta_dm0 = Mh0 / Mh0[0]
-	eta_dm1 = Mh1 / Mh1[0]
+	Ms0 = np.array(M_s[0])
+	Ms1 = np.array(M_s[1])
 
 	Msat0 = np.array(M_sat[0])
 	Msat1 = np.array(M_sat[1])
@@ -315,7 +309,15 @@ def fig_out():
 	zicm0 = zh0[Micm0 >= 10**11]
 	eta_icm1 = Micm1[Micm1 >= 10**11] / Mh1[Micm1 >= 10**11]
 	zicm1 = zh1[Micm1 >= 10**11]
+
 	eps = 1e-2
+	t_Ms0 = Msat0 + Mbcg0 + Micm0
+	eta_tot_m0 = t_Ms0[t_Ms0 >= 10**11] / Mh0[t_Ms0 >= 10**11]
+	z_tot0 = zh0[t_Ms0 >= 10**11]
+
+	t_Ms1 = Msat1 + Mbcg1 + Micm1
+	eta_tot_m1 = t_Ms1[t_Ms1 >= 10**11] / Mh1[t_Ms1 >= 10**11]
+	z_tot1 = zh1[t_Ms1 >= 10**11]
 
 	fig = plt.figure(figsize = (12, 12))
 	gs = gridspec.GridSpec(2, 1, height_ratios = [3, 2])
@@ -331,6 +333,8 @@ def fig_out():
 		Mbcg0[(Mbcg0 != 0) & (Mbcg0 >= 10**11)], 'r-', label = r'$M_{BCG} \, Younger$')
 	ax.plot(np.log10(1 + zh0[(Micm0 != 0) & (Micm0 >= 10**11)]), 
 		Micm0[(Micm0 != 0) & (Micm0 >= 10**11)], 'g-', label = r'$M_{ICM} \, Younger$')
+	ax.plot(np.log10(1 + zh0[t_Ms0 >= 10**11]), t_Ms0[t_Ms0 >= 10**11],
+		'm-', label = r'$M^{\ast}_{BCG + ICM + sat} \, Younger$')
 
 	ax.plot(np.log10(1 + zh1[(Mh1 != 0) & (Mh1* eps >= 10**11)]),
 		Mh1[(Mh1 != 0) & (Mh1* eps >= 10**11)] * eps, 'k--', label = r'$M_{h}/10^{2} \, Older$')
@@ -340,20 +344,18 @@ def fig_out():
 		Mbcg1[(Mbcg1 != 0) & (Mbcg1 >= 10**11)], 'r--', label = r'$M_{BCG} \, Older$')
 	ax.plot(np.log10(1 + zh1[(Micm1 != 0) & (Micm1 >= 10**11)]), 
 		Micm1[(Micm1 != 0) & (Micm1 >= 10**11)], 'g--', label = r'$M_{ICM} \, Older$')
+	ax.plot(np.log10(1 + zh1[t_Ms1 >= 10**11]), t_Ms1[t_Ms1 >= 10**11], 
+		'm--', label = r'$M^{\ast}_{BCG + ICM + sat} \, Older$')
 
 	bx.plot(np.log10(1 + zsat0), eta_sat0, 'b-', label = r'$M_{sat} / M_h \, Younger$')
 	bx.plot(np.log10(1 + zbcg0), eta_bcg0, 'r-', label = r'$M_{BCG} / M_h \, Younger$')
 	bx.plot(np.log10(1 + zicm0), eta_icm0, 'g-', label = r'$M_{ICM} / M_h \, Younger$')
+	bx.plot(np.log10(1 + z_tot0), eta_tot_m0, 'm-', label = r'$M^{\ast}_{BCG + ICM + sat} / M_h\, Younger$')
+
 	bx.plot(np.log10(1 + zsat1), eta_sat1, 'b--', label = r'$M_{sat} / M_h \, Older$')
 	bx.plot(np.log10(1 + zbcg1), eta_bcg1, 'r--', label = r'$M_{BCG} / M_h \, Older$')
 	bx.plot(np.log10(1 + zicm1), eta_icm1, 'g--', label = r'$M_{ICM} / M_h \, Older$')
-
-	bx.set_xlim(0, 0.8)
-	bx.set_xlabel(r'$log(1+z)$', fontsize = 12)
-	bx.set_ylabel(r'$Mass \; ratio$', fontsize = 12)
-	bx.set_yscale('log')
-	bx.tick_params(axis = 'both', which = 'both', direction = 'in', labelsize = 12)
-	bx.legend(loc = 4, fontsize = 12)
+	bx.plot(np.log10(1 + z_tot1), eta_tot_m1, 'm--', label = r'$M^{\ast}_{BCG + ICM + sat} / M_h\, Older$')
 
 	ax1 = ax.twiny()
 	xtik = ax.get_xticks()
@@ -370,17 +372,189 @@ def fig_out():
 	ax.tick_params(axis = 'both', which = 'both', direction = 'in', labelsize = 12)
 	ax1.tick_params(axis = 'x', which = 'both', direction = 'in', labelsize = 12)
 
+	bx.set_xlabel(r'$log(1+z)$', fontsize = 12)
+	bx.set_ylabel(r'$Mass \; ratio$', fontsize = 12)
+	bx.set_yscale('log')
+	bx.tick_params(axis = 'both', which = 'both', direction = 'in', labelsize = 12)
+	bx.legend(loc = 4, fontsize = 12)
+
 	plt.subplots_adjust(hspace = 0)
 	plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/compare_fig/assembly_comparation_%s_%s.png' 
 		% (sub_set[0], sub_set[1]), dpi = 300)
 	plt.close()
 
+	return
+
+def Z_half(z, mh, eta):
+	zz = z*1
+	mm = mh*1
+	A = mm[0] * eta
+	fz = interp(mm, zz)
+	tz = fz(A)
+	return tz
+
+def mean_curve(sample_str, Length):
+	lis = sample_str
+	L0 = Length
+	zz = np.zeros(L0, dtype = np.float)
+	msat = np.zeros(L0, dtype = np.float)
+	mbcg = np.zeros(L0, dtype = np.float)
+	micm = np.zeros(L0, dtype = np.float)
+	mh = np.zeros(L0, dtype = np.float)
+	cont = np.ones(L0, dtype = np.float)
+	for k in range(len(lis)):
+		with h5py.File('/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/tree_h5/C_%s_mass_trck_with_ICM.h5' % lis[k]) as f:
+			reg_data = np.array(f['a'])
+		zgx = reg_data[0,:]
+		md = reg_data[2,:]
+		m_sat = reg_data[5,:]
+		m_bcg = reg_data[7,:]
+		m_icm = reg_data[8,:]
+
+		lc = len(zgx)
+		zz[:lc] = zz[:lc] + zgx
+		msat[:lc] = msat[:lc] + m_sat
+		mbcg[:lc] = mbcg[:lc] + m_bcg
+		micm[:lc] = micm[:lc] + m_icm
+		mh[:lc] = mh[:lc] + md
+		cont[:lc] = cont[:lc] + 1
+
+	mean_z = zz / cont
+	mean_h = mh / cont
+	mean_sat = msat / cont
+	mean_bcg = mbcg / cont
+	mean_icm = micm / cont
+	return mean_z, mean_h, mean_sat, mean_bcg, mean_icm
+
+def stack_accretion():
+	load2 = 'NewMDCLUSTER_'
+	sub_set = ['0080', '0099', '0106', '0111', '0118', '0119', '0120', '0135', '0145', '0146', '0153']
+	Nh = len(sub_set)
+	eta = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+	eps = 1e-2
+	for tt in range(len(eta)):
+		b = eta[tt]
+		Mh = []
+		Ms = []
+		Mg = []
+		Z_huf = []
+		Z_huf0 = []
+		L0 = 0
+		for k in range(Nh):
+			with h5py.File('/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/tree_h5/mass_reviw_%s_CID.h5' % sub_set[k]) as f:
+				record = np.array(f['a'])
+			zc = record[0,:]
+			mh = record[1,:]
+			ms = record[2,:]
+			mg = record[3,:]
+			zt = Z_half(zc, mh, b)
+			Z_huf.append(zt)
+			Mh.append(mh)
+			Ms.append(ms)
+			Mg.append(mg)
+			L0 = np.max([L0, len(zc)])
+
+		Zhuf = np.array(Z_huf)
+		# sample divided
+		Mh0 = [m[0] for m in Mh]
+		edg = np.median(Zhuf)
+		idx = Zhuf <= edg
+		ivx = np.where(idx == True)[0]
+		idy = Zhuf >= edg
+		ivy = np.where(idy == True)[0]
+		sub_set1 = [sub_set[kt] for kt in ivx]
+		sub_set2 = [sub_set[kt] for kt in ivy]
+
+		mean_z_Y, mean_h_Y, mean_sat_Y, mean_bcg_Y, mean_icm_Y = mean_curve(sub_set1, L0)
+		mean_tot_ms_Y = mean_sat_Y + mean_bcg_Y + mean_icm_Y
+		eta_icm_Y = mean_icm_Y[ mean_icm_Y >= 10**11] / mean_h_Y[mean_icm_Y >= 10**11]
+		zicm_Y = mean_z_Y[mean_icm_Y >= 10**11]
+
+		eta_bcg_Y = mean_bcg_Y[ mean_bcg_Y >= 10**11] / mean_h_Y[mean_bcg_Y >= 10**11]
+		zbcg_Y = mean_z_Y[mean_bcg_Y >= 10**11]
+
+		eta_sat_Y = mean_sat_Y[ mean_sat_Y >= 10**11] / mean_h_Y[mean_sat_Y >= 10**11]
+		zsat_Y = mean_z_Y[mean_sat_Y >= 10**11]
+
+		eta_tot_ms_Y = mean_tot_ms_Y[ mean_tot_ms_Y >= 10**11] / mean_h_Y[mean_tot_ms_Y >= 10**11]
+		ztot_Y = mean_z_Y[mean_tot_ms_Y >= 10**11]
+
+		mean_z_O, mean_h_O, mean_sat_O, mean_bcg_O, mean_icm_O = mean_curve(sub_set2, L0)
+		mean_tot_ms_O = mean_sat_O + mean_bcg_O + mean_icm_O
+		eta_icm_O = mean_icm_O[ mean_icm_O >= 10**11] / mean_h_O[mean_icm_O >= 10**11]
+		zicm_O = mean_z_O[mean_icm_O >= 10**11]
+
+		eta_bcg_O = mean_bcg_O[ mean_bcg_O >= 10**11] / mean_h_O[mean_bcg_O >= 10**11]
+		zbcg_O = mean_z_O[mean_bcg_O >= 10**11]
+
+		eta_sat_O = mean_sat_O[ mean_sat_O >= 10**11] / mean_h_O[mean_sat_O >= 10**11]
+		zsat_O = mean_z_O[mean_sat_O >= 10**11]
+
+		eta_tot_ms_O = mean_tot_ms_O[ mean_tot_ms_O >= 10**11] / mean_h_O[mean_tot_ms_O >= 10**11]
+		ztot_O = mean_z_O[mean_tot_ms_O >= 10**11]
+
+		plt.figure(figsize = (12, 12))
+		gs = gridspec.GridSpec(2, 1, height_ratios = [3, 2])
+		ax = plt.subplot(gs[0])
+		bx = plt.subplot(gs[1], sharex = ax)
+
+		ax.set_title('stacked mass accretion in Gadget-X with z_form in %.1f Mh0' % b, fontsize = 12)
+		ax.plot(np.log10(1 + mean_z_Y[mean_h_Y * eps >= 10**11]), mean_h_Y[mean_h_Y * eps >= 10**11] * eps,
+			'k-', label = r'$M_{h}/10^2 \, Younger$')
+		ax.plot(np.log10(1 + zsat_Y), mean_sat_Y[mean_sat_Y >= 10**11], 'b-', label = r'$M_{sat} \, Younger$')
+		ax.plot(np.log10(1 + zbcg_Y), mean_bcg_Y[mean_bcg_Y >= 10**11], 'r-', label = r'$M_{BCG} \, Younger$')
+		ax.plot(np.log10(1 + zicm_Y), mean_icm_Y[mean_icm_Y >= 10**11], 'g-', label = r'$M_{ICM} \, Younger$')
+		ax.plot(np.log10(1 + ztot_Y), mean_tot_ms_Y[mean_tot_ms_Y >= 10**11], 'm-',
+			label = r'$M^{\ast}_{BCG + ICM + sat} \, Younger$')
+
+		ax.plot(np.log10(1 + mean_z_O[mean_h_O * eps >= 10**11]), mean_h_O[mean_h_O * eps >= 10**11] * eps,
+			'k--', label = r'$M_{h}/10^2 \, Older$')
+		ax.plot(np.log10(1 + zsat_O), mean_sat_O[mean_sat_O >= 10**11], 'b--', label = r'$M_{sat} \, Older$')
+		ax.plot(np.log10(1 + zbcg_O), mean_bcg_O[mean_bcg_O >= 10**11], 'r--', label = r'$M_{BCG} \, Older$')
+		ax.plot(np.log10(1 + zicm_O), mean_icm_O[mean_icm_O >= 10**11], 'g--', label = r'$M_{ICM} \, Older$')
+		ax.plot(np.log10(1 + ztot_O), mean_tot_ms_O[mean_tot_ms_O >= 10**11], 'm--',
+			label = r'$M^{\ast}_{BCG + ICM + sat} \, Older$')
+
+		bx.plot(np.log10(1 + zsat_Y), eta_sat_Y, 'b-', label = r'$M_{sat} / M_h \, Younger$')
+		bx.plot(np.log10(1 + zbcg_Y), eta_bcg_Y, 'r-', label = r'$M_{BCG} / M_h \, Younger$')
+		bx.plot(np.log10(1 + zicm_Y), eta_icm_Y, 'g-', label = r'$M_{ICM} / M_h \, Younger$')
+		bx.plot(np.log10(1 + ztot_Y), eta_tot_ms_Y, 'm-', label = r'$M^{\ast}_{BCG + ICM + sat} / M_h\, Younger$')
+		bx.plot(np.log10(1 + zsat_O), eta_sat_O, 'b--', label = r'$M_{sat} / M_h \, Older$')
+		bx.plot(np.log10(1 + zbcg_O), eta_bcg_O, 'r--', label = r'$M_{BCG} / M_h \, Older$')
+		bx.plot(np.log10(1 + zicm_O), eta_icm_O, 'g--', label = r'$M_{ICM} / M_h \, Older$')
+		bx.plot(np.log10(1 + ztot_O), eta_tot_ms_O, 'm--', label = r'$M^{\ast}_{BCG + ICM + sat} / M_h\, Older$')
+
+		ax1 = ax.twiny()
+		xtik = ax.get_xticks()
+		Zt = 10**(xtik) - 1
+		LBT = Plank.lookback_time(Zt).value
+		ax1.set_xticks(xtik)
+		ax1.set_xticklabels(["%.2f" % ll for ll in LBT])
+		ax1.set_xlim(ax.get_xlim())
+		ax1.set_xlabel(r'$look \; back \; time[Gyr]$', fontsize = 12)
+
+		ax.set_ylabel(r'$M[M_{\odot}/h]$', fontsize = 12)
+		ax.set_yscale('log')
+		ax.legend(loc = 1, fontsize = 12)
+		ax.tick_params(axis = 'both', which = 'both', direction = 'in', labelsize = 12)
+		ax1.tick_params(axis = 'x', which = 'both', direction = 'in', labelsize = 12)
+
+		bx.set_xlabel(r'$log(1+z)$', fontsize = 12)
+		bx.set_ylabel(r'$Mass \; ratio$', fontsize = 12)
+		bx.set_yscale('log')
+		bx.tick_params(axis = 'both', which = 'both', direction = 'in', labelsize = 12)
+		bx.legend(loc = 4, fontsize = 12)
+
+		plt.subplots_adjust(hspace = 0)
+		plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/compare_fig/assembly_mass_stacked_%.1fMh0.png' % b, dpi = 300)
+		plt.close()
 	raise
 	return
 
 def main():
 	#ICM_GX()
-	fig_out()
+	#fig_out()
+	stack_accretion()
 
 if __name__ == '__main__':
 	main()

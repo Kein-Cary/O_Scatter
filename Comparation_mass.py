@@ -39,7 +39,7 @@ for k in range(l):
         xhalo = np.array(halo_read['col6'])
         yhalo = np.array(halo_read['col7'])
         zhalo = np.array(halo_read['col8'])
-
+        raise
         ##identical the goal halo 
         ix = z == z[k]
         iy = ix.tolist()

@@ -37,7 +37,6 @@ CID = np.sort(C_id)
 def rho_GX():
 	load2 = 'NewMDCLUSTER_'
 	sub_set = CID
-
 	Nh = len(sub_set)
 	bins = 50
 	for k in range(Nh):
@@ -102,6 +101,7 @@ def rho_GX():
 				y0 = yhalo[check_id]
 				z0 = zhalo[check_id]
 				R0 = Rvir[check_id]
+				N0 = Npart[check_id]
 
 				snap_N = pygdr.readheader(
 					'/mnt/ddnfs/data_users/wgcui/The300/simulation/GadgetX/NewMDCLUSTER_%s/snap_%s' % (sub_set[k], Goal_ID), 'npartTotal')
@@ -183,7 +183,6 @@ def rho_GX():
 							sub_y = yhalo[ih]
 							sub_z = zhalo[ih]
 							sub_r = Rvir[ih]
-
 						except ValueError:
 							print('there is noly one halo!')
 						# select ICL + BCG from all star 
@@ -209,7 +208,39 @@ def rho_GX():
 							dm_icm[kk] = np.sum(ddm) * 10**10
 						for kk in range(len(r_icm) - 1):
 							ddr = r_icm[kk+1] - r_icm[kk]
-							rho_ccm[qq, kk] = (dm_icm[kk + 1] - dm_icm[kk]) / (4*np.pi * ddr * r_icm[kk]**2)
+							n_subV = 0
+							cc_dr = np.sqrt((sub_x - x0)**2 + (sub_y - y0)**2 + (sub_z - z0)**2)
+							for ss in range(len(sub_r)):
+								if tt == id_cen[0]:
+									V_sub = 0
+									continue
+								elif ((r_icm[kk+1] >= cc_dr[ss] - sub_r[ss]) & (r_icm[kk+1] <= cc_dr[ss] + sub_r[ss])) | (
+											(r_icm[kk] >= cc_dr[ss] - sub_r[ss]) & (r_icm[kk] <= cc_dr[ss] + sub_r[ss])):
+									cen_ds0 = np.abs(cc_dr[ss] - r_icm[kk])
+									cen_ds1 = np.abs(cc_dr[ss] - r_icm[kk+1])
+									if cen_ds0 > sub_r[ss]:
+										if np.abs(cen_ds0 - sub_r[ss]) >= 0.5 * ddr:
+											s1 = np.pi * (np.sqrt(sub_r[ss]**2 - cen_ds1**2))**2
+											s0 = 0.5 * s1
+											V_sub = (s1 + s0 + np.sqrt(s0 * s1)) * ddr / 3
+										else:
+											V_sub = 0
+									elif cen_ds1 > sub_r[ss]:
+										if np.abs(sub_r[ss] - cen_ds0) >= 0.5 * ddr:
+											s0 = np.pi * (np.sqrt(sub_r[ss]**2 - cen_ds0**2))**2
+											s1 = 0.5 * s0
+											V_sub = (s0 + s1 + np.sqrt(s0 * s1)) * ddr / 3
+										else:
+											V_sub = 0
+									else:
+										s0 = np.pi * (np.sqrt(sub_r[ss]**2 - cen_ds0**2))**2
+										s1 = np.pi * (np.sqrt(sub_r[ss]**2 - cen_ds1**2))**2
+										V_sub = (s0 + s1 + np.sqrt(s0 * s1)) * ddr / 3
+								else:
+									V_sub = 0
+									continue
+								n_subV = n_subV + V_sub
+							rho_ccm[qq, kk] = (dm_icm[kk + 1] - dm_icm[kk]) / (4*np.pi * ddr * r_icm[kk]**2 - n_subV)
 							R_ccm[qq, kk] = 0.5 * (r_icm[kk + 1] + r_icm[kk])
 					except ValueError:
 						continue
@@ -245,12 +276,12 @@ def rho_GX():
 				ms = []
 				mg = []
 				for tt in range(len(subr)):
-					idr = sub_dr_d < subr[tt]
+					idr = sub_dr_d <= subr[tt]
 					sub_dm = inl_m_dm[idr]
 					subdm = np.sum(sub_dm) * 10**10
 					md.append(subdm)
 
-					idr = sub_dr_s < subr[tt]
+					idr = sub_dr_s <= subr[tt]
 					sub_star = inl_m_star[idr]
 					substar = np.sum(sub_star) * 10**10
 					ms.append(substar)
@@ -274,19 +305,19 @@ def rho_GX():
 				continue
 		cord_array = np.array([rho_ccm, R_ccm])
 		with h5py.File(
-			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_bcg_icm_profile_%s.h5' % sub_set[k], 'w') as f:
+			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_bcg_icm_profile_%s.h5' % sub_set[k], 'w') as f:
 			f['a'] = np.array(cord_array)
 		with h5py.File(
-			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_bcg_icm_profile_%s.h5' % sub_set[k] ) as f:
+			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_bcg_icm_profile_%s.h5' % sub_set[k] ) as f:
 			for qq in range(len(cord_array)):
 				f['a'][qq,:] = cord_array[qq,:]
 
 		sum_array = np.array([rho_dm, rho_s, rho_g, R_h])
 		with h5py.File(
-			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_tot_profile_%s.h5' % sub_set[k], 'w') as f:
+			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_tot_profile_%s.h5' % sub_set[k], 'w') as f:
 			f['a'] = np.array(sum_array)
 		with h5py.File(
-			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_tot_profile_%s.h5' % sub_set[k] ) as f:
+			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_tot_profile_%s.h5' % sub_set[k] ) as f:
 			for tt in range(len(sum_array)):
 				f['a'][tt, :] = sum_array[tt, :]
 
@@ -320,7 +351,7 @@ def fig_out():
 			zc = np.array(f['a'])
 
 		with h5py.File(
-			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_tot_profile_%s.h5' % sub_set[k]) as f:
+			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_tot_profile_%s.h5' % sub_set[k]) as f:
 			halo_tot = np.array(f['a'])
 		Rh = halo_tot[3,:]
 		rho_g = halo_tot[2,:]
@@ -328,7 +359,7 @@ def fig_out():
 		rho_d = halo_tot[0,:]
 
 		with h5py.File(
-			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_bcg_icm_profile_%s.h5' % sub_set[k]) as f:
+			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_bcg_icm_profile_%s.h5' % sub_set[k]) as f:
 			cord_array = np.array(f['a'])
 		rho_ccm = cord_array[0,:]
 		R_ccm = cord_array[1,:]
@@ -343,6 +374,7 @@ def fig_out():
 		eta_ccm = rho_ccm[0,:][rho_d[0,:] != 0] / rho_d[0,:][rho_d[0,:] != 0]
 		etaccm.append(eta_ccm)
 		reta.append(R_ccm[0,:][rho_d[0,:] != 0])
+	#print('rhoccm = ', rhoccm)
 
 	plt.figure(figsize = (16, 8))
 	gs = gridspec.GridSpec(1, 2, width_ratios = [1, 1])
@@ -375,87 +407,9 @@ def fig_out():
 	plt.legend(loc = 1, fontsize = 12)
 
 	plt.tight_layout()
-	plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/compare_fig/halo_dens_%s_%s.png' % (sub_set[0], sub_set[1]))
+	plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/BCG_fig/halo_dens_%s_%s.png' % (sub_set[0], sub_set[1]))
 	plt.close()
-	'''
-	# for z != 0
-	for k in range(Nh):
-		with h5py.File('/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/tree_h5/z_for_C_%s.h5' % sub_set[k]) as f:
-			zc = np.array(f['a'])
 
-		with h5py.File(
-			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_tot_profile_%s.h5' % sub_set[k]) as f:
-			halo_tot = np.array(f['a'])
-		Rh = halo_tot[3,:]
-		rho_g = halo_tot[2,:]
-		rho_s = halo_tot[1,:]
-		rho_d = halo_tot[0,:]
-
-		with h5py.File(
-			'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_bcg_icm_profile_%s.h5' % sub_set[k]) as f:
-			cord_array = np.array(f['a'])
-		rho_ccm = cord_array[0,:]
-		R_ccm = cord_array[1,:]
-
-		plt.figure(figsize = (16, 12))
-		plt.title('density profile evolution C_%s' % sub_set[k])
-		gs = gridspec.GridSpec(2, 2, height_ratios = [3,2])
-		ax0 = plt.subplot(gs[0,0])
-		ax1 = plt.subplot(gs[0,1])
-		bx0 = plt.subplot(gs[1,:])
-
-		ix = zc <= 1
-		dz = zc[ix]
-		Nz = len(dz)
-		for q in range(len(zc)):
-			if zc[q] <= 1:
-				if q % 3 == 0:
-					rh_ = Rh[q,:]
-					rhog_ = rho_g[q,:]
-					rhos_ = rho_s[q,:]
-					rhod_ = rho_d[q,:]
-					rccm_ = R_ccm[q,:]
-					rhoccm_ = rho_ccm[q,:]
-
-					eta_ccm_ = rhoccm_[rhod_ != 0] / rhod_[rhod_ != 0]
-					reta_ = R_ccm[q,:][rhod_ != 0]
-
-					ax0.plot(rh_, rhod_, ls = '-', color = mpl.cm.rainbow(q/Nz), 
-						label = r'$\rho_{DM} \, C \, %s \, z%.3f$' % (sub_set[k], zc[q]))
-					ax1.plot(rccm_, rhoccm_, ls = '-', color = mpl.cm.rainbow(q/Nz),
-						label = r'$\rho_{ICM+BCG} \, C \, %s \, z%.3f$' % (sub_set[k], zc[q]))
-					bx0.plot(reta_, eta_ccm_, ls = '-', color = mpl.cm.rainbow(q/Nz),
-						label = r'$[\rho_{ICM+BCG} / \rho_{DM} \, %s \, z%.3f]$' % (sub_set[k], zc[q]))
-				else:
-					continue
-			else:
-				continue
-		ax0.set_xlim(1e0, 2*np.max(Rh[0]))
-		ax0.set_title(r'$\rho_{DM} \; evolution$')
-		ax0.set_xscale('log')
-		ax0.set_yscale('log')
-		ax0.set_xlabel(r'$R[kpc/h]$')
-		ax0.set_ylabel(r'$\rho[h^2 M_\odot /kpc^3]$')
-		ax0.legend(loc = 1, fontsize = 10)
-
-		ax1.set_xlim(1e0, 2*np.max(Rh[0]))
-		ax1.set_title(r'$\rho_{ICM+BCG} \; evolution$')
-		ax1.set_xscale('log')
-		ax1.set_yscale('log')
-		ax1.set_xlabel(r'$R[kpc/h]$')
-		ax1.set_ylabel(r'$\rho[h^2 M_\odot /kpc^3]$')
-		ax1.legend(loc = 1, fontsize = 10)
-
-		bx0.set_title(r'$ratio [\rho_{BCG+ICL} / \rho_{DM}] \; evolution$')
-		bx0.set_xlim(1e0, 2*np.max(Rh[0]))
-		bx0.set_xscale('log')
-		bx0.set_yscale('log')
-		bx0.set_xlabel(r'$R[kpc/h]$')
-		bx0.set_ylabel(r'$\rho[h^2 M_\odot /kpc^3]$')
-		bx0.legend(loc = 1, fontsize = 12.5)
-		plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/compare_fig/halo_dens_zfunction_%s.png' % sub_set[k], dpi = 600)
-		plt.close()
-	'''
 	return
 
 def Z_half(z, mh, eta):
@@ -469,7 +423,6 @@ def Z_half(z, mh, eta):
 def rho_stack():
 	load2 = 'NewMDCLUSTER_'
 	sub_set = ['0080', '0099', '0106', '0111', '0118', '0119', '0120', '0135', '0145', '0146', '0153']
-	#sub_set = CID
 	Nh = len(sub_set)
 	eta = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
 	for tt in range(len(eta)):
@@ -512,13 +465,13 @@ def rho_stack():
 		rccm1 = []
 		for qq in range(len(sub_set1)):
 			with h5py.File(
-				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_tot_profile_%s.h5' % sub_set1[qq]) as f:
+				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_tot_profile_%s.h5' % sub_set1[qq]) as f:
 				halo_tot = np.array(f['a'])
 			Rh = halo_tot[3,:]
 			rho_d = halo_tot[0,:]
 
 			with h5py.File(
-				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_bcg_icm_profile_%s.h5' % sub_set1[qq]) as f:
+				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_bcg_icm_profile_%s.h5' % sub_set1[qq]) as f:
 				cord_array = np.array(f['a'])
 			rho_ccm = cord_array[0,:]
 			R_ccm = cord_array[1,:]
@@ -527,6 +480,7 @@ def rho_stack():
 			rhod1.append(rho_d[0,:])
 			rccm1.append(R_ccm[0,:])
 			rhoccm1.append(rho_ccm[0,:])
+
 		rmin = [np.min(kk) for kk in rh1]
 		max_rmin = np.max(rmin)
 		rmax = [np.max(kk) for kk in rh1]
@@ -567,13 +521,13 @@ def rho_stack():
 		rccm2 = []
 		for qq in range(len(sub_set2)):
 			with h5py.File(
-				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_tot_profile_%s.h5' % sub_set2[qq]) as f:
+				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_tot_profile_%s.h5' % sub_set2[qq]) as f:
 				halo_tot = np.array(f['a'])
 			Rh = halo_tot[3,:]
 			rho_d = halo_tot[0,:]
 
 			with h5py.File(
-				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/Cluster_profile/halo_bcg_icm_profile_%s.h5' % sub_set2[qq]) as f:
+				'/mnt/ddnfs/data_users/cxkttwl/Scatter/G_x_redshift/halo_bcg_icm_profile_%s.h5' % sub_set2[qq]) as f:
 				cord_array = np.array(f['a'])
 			rho_ccm = cord_array[0,:]
 			R_ccm = cord_array[1,:]
@@ -628,10 +582,10 @@ def rho_stack():
 		ax.plot(Rccm2, Rhoccm2, 'r--', label = r'$\bar{\rho}_{BCG + ICM} \; Older$')		
 
 		ax.set_xlim(1e0, 2*np.max(Rh1))
-		ax.set_xscale('log')
 		ax.set_xlabel(r'$R[kpc/h]$')
 		ax.set_ylabel(r'$\rho[h^2 M_\odot /kpc^3]$')
 		ax.set_yscale('log')
+		ax.set_xscale('log')
 		ax.legend(loc = 1, fontsize = 12)
 		ax.tick_params(axis = 'both', which = 'both', direction = 'in')
 
@@ -648,7 +602,7 @@ def rho_stack():
 		plt.legend(loc = 1, fontsize = 12)
 
 		plt.tight_layout()
-		plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/compare_fig/halo_stack_dens_zform_%.1fMh0.png' 
+		plt.savefig('/mnt/ddnfs/data_users/cxkttwl/Scatter/snap/BCG_fig/halo_stack_dens_zform_%.1fMh0.png' 
 			% b, dpi = 300)
 		plt.close()
 	raise

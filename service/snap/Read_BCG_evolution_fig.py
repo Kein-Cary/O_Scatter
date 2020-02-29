@@ -127,7 +127,7 @@ def fig_BCG(resolution,g_size):
         if k % 8 == 0:
             ax1.plot(r_mu[:-1],rho_b[k,:],'--',color = mpl.cm.rainbow(k/N_color),
                      label = r'$z{%.3f}$'%z_mu[k])
-            handles, labels = plt.gca().get_legend_handles_labels() 
+            handles, labels = plt.gca().get_legend_handles_labels()
     ax1.legend(bbox_to_anchor=(0., 1., 1., 0.), loc=1,
                ncol= 3, mode="expand", fontsize= 5., borderaxespad=0.)
     ax1.set_xlim(1e-1,1e2)

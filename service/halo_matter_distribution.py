@@ -23,12 +23,10 @@ CID = np.sort(C_id)
 
 def snap_show():
 	load2 = 'NewMDCLUSTER_'
-
-	#sub_set = ['0145', '0153', '0182']
+	'''	
 	sub_set = ['0110', '0121', '0132', '0182']
 	'''
-	sub_set = C_id
-	'''
+	sub_set = CID
 	Nh = len(sub_set)
 	for  k in range(Nh):
 
@@ -111,14 +109,14 @@ def snap_show():
 				plt.figure(figsize = (7, 4.5))
 				plt.title('Cluster_%s_z%.3f' % (sub_set[k], zg))
 				plt.hist2d(inl_gas[:, 0], inl_gas[:,1], bins = [500, 500],
-					cmap = 'cividis', vmin = 1e-1, vmax = snap_N[0]/10, norm=mpl.colors.LogNorm(), alpha = 0.5)
+					cmap = 'winter', vmin = 1e-1, vmax = snap_N[0]/10, norm=mpl.colors.LogNorm(), alpha = 0.5)
 				plt.hist2d(inl_dm[:, 0], inl_dm[:,1], bins = [500, 500],
-					cmap = 'viridis', vmin = 1e-1, vmax = snap_N[1]/10, norm=mpl.colors.LogNorm(), alpha = 0.5)
+					cmap = 'summer', vmin = 1e-1, vmax = snap_N[1]/10, norm=mpl.colors.LogNorm(), alpha = 0.5)
 				plt.hist2d(inl_star[:, 0], inl_star[:,1], bins = [500, 500],
-					cmap = 'Reds',vmin = 1e-1,vmax = snap_N[-2]/10,norm=mpl.colors.LogNorm(), alpha = 0.5)	
+					cmap = 'autumn',vmin = 1e-1,vmax = snap_N[-2]/10,norm=mpl.colors.LogNorm(), alpha = 0.5)	
 				plt.xlim(x0 - R0, x0 + R0)
 				plt.ylim(y0 - R0, y0 + R0)
-				plt.text(x0, y0, s = '%.2f, %.2f'% (x0, y0))
+				#plt.text(x0, y0, s = '%.2f, %.2f'% (x0, y0))
 				plt.axis('off')
 				plt.xticks([])
 				plt.yticks([])
